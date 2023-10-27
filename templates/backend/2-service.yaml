@@ -1,0 +1,35 @@
+#
+# Service targeting stable
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.stableName}}
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: {{.Values.name}}
+    harness.io/track: stable
+---
+#
+# Service targeting canary
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.canaryName}}
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: {{.Values.name}}
+    harness.io/track: canary

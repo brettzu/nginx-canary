@@ -1,0 +1,61 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: {{.Values.name}}
+spec:
+  host: {{.Values.host}}
+  upstreams:
+  - name: {{.Values.frontend.ui}}
+    service: {{.Values.frontend.ui}}
+    port: 80
+  routes:
+  - path: /{{.Values.endpoint}}
+    route: {{.Values.name}}
+  - path: /
+    action:
+      proxy:
+        upstream: {{.Values.frontend.ui}}
+---
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServerRoute
+metadata:
+  name: {{.Values.name}}
+spec:
+  host: {{.Values.host}}
+  upstreams:
+  - name: {{.Values.stableName}}
+    service: {{.Values.stableName}}
+    port: 80
+  - name: {{.Values.canaryName}}
+    service: {{.Values.canaryName}}
+    port: 80
+  subroutes:
+  - path: /{{.Values.stableEndpoint}}
+    action:
+      proxy:
+        upstream: {{.Values.stableName}}
+        rewritePath: /color/index.html
+  - path: /{{.Values.canaryEndpoint}}
+    action:
+      proxy:
+        upstream: {{.Values.canaryName}}
+        rewritePath: /color/index.html
+  - path: /{{.Values.endpoint}}
+    {{- if .Values.splitTraffic}}
+    splits:
+    - weight: {{.Values.stableWeight}}
+      action:
+        proxy:
+          upstream: {{.Values.stableName}}
+          rewritePath: /color/index.html
+    - weight: {{.Values.canaryWeight}}
+      action:
+        proxy:
+          upstream: {{.Values.canaryName}}
+          rewritePath: /color/index.html
+    {{- else}}
+    action:
+      proxy:
+        upstream: {{.Values.stableName}}
+        rewritePath: /color/index.html
+    {{- end}}

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.frontend.ui}}
+  annotations:
+    harness.io/direct-apply: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Values.frontend.ui}}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{.Values.frontend.ui}}
+    spec:
+      terminationGracePeriodSeconds: 2
+      containers:
+      - name: color-ui
+        image: {{.Values.frontend.image}}
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: LOAD_BALANCER
+          value: {{.Values.frontend.loadBalancer}}
+        - name: ENDPOINT
+          value: {{.Values.endpoint}}
+        - name: TARGET1
+          value: {{.Values.canaryEndpoint}}
+        - name: TARGET2
+          value: {{.Values.stableEndpoint}}
+        - name: TITLE
+          value: {{.Values.frontend.title}}
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            memory: 50Mi
+            cpu: 10m
+          requests:
+            memory: 50Mi
+            cpu: 10m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.frontend.ui}}
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: {{.Values.frontend.ui}}
+  type: ClusterIP
