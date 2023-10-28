@@ -2,6 +2,7 @@ name: <+serviceVariables.name>
 image: <+artifact.image>
 canaryName: <+serviceVariables.canaryName>
 stableName: <+serviceVariables.stableName>
+host: <+serviceVariables.host>
 endpoint: color
 canaryEndpoint: color-canary
 stableEndpoint: color-stable
