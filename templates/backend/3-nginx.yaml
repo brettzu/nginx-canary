@@ -1,16 +1,14 @@
 apiVersion: k8s.nginx.org/v1
-kind: VirtualServer
+kind: VirtualServerRoute
 metadata:
-  name: {{.Values.name}}
+  name: {{.Values.frontend.uiPath}}
 spec:
   host: {{.Values.host}}
   upstreams:
   - name: {{.Values.frontend.uiPath}}
     service: {{.Values.frontend.uiPath}}
     port: 80
-  routes:
-  - path: /{{.Values.endpoint}}
-    route: {{.Values.name}}
+  subroutes:
   - path: /{{.Values.frontend.uiPath}}
     action:
       proxy:
