@@ -14,5 +14,5 @@ namespace: <+infra.namespace>
 frontend:
   title: Canary - Nginx Traffic Shift
   loadBalancer: <+serviceVariables.loadBalancer>
-  ui: <+serviceVariables.ui>
+  uiPath: <+serviceVariables.uiPath>
   image: us.gcr.io/sales-209522/continuous-requests:110

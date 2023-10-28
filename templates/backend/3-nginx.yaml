@@ -5,16 +5,19 @@ metadata:
 spec:
   host: {{.Values.host}}
   upstreams:
-  - name: {{.Values.frontend.ui}}
-    service: {{.Values.frontend.ui}}
+  - name: {{.Values.frontend.uiPath}}
+    service: {{.Values.frontend.uiPath}}
     port: 80
   routes:
   - path: /{{.Values.endpoint}}
     route: {{.Values.name}}
-  - path: /
+  - path: /{{.Values.uiPath}}
     action:
       proxy:
-        upstream: {{.Values.frontend.ui}}
+        upstream: {{.Values.frontend.uiPath}}
+        rewritePath: /
+  }
+  }
 ---
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServerRoute
