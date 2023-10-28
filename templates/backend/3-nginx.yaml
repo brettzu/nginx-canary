@@ -16,8 +16,6 @@ spec:
       proxy:
         upstream: {{.Values.frontend.uiPath}}
         rewritePath: /
-  }
-  }
 ---
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServerRoute
