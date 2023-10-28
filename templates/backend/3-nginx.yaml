@@ -11,7 +11,7 @@ spec:
   routes:
   - path: /{{.Values.endpoint}}
     route: {{.Values.name}}
-  - path: /{{.Values.uiPath}}
+  - path: /{{.Values.frontend.uiPath}}
     action:
       proxy:
         upstream: {{.Values.frontend.uiPath}}
