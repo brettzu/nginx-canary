@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{.Values.frontend.ui}}
+  name: {{.Values.frontend.uiPath}}
   annotations:
     harness.io/direct-apply: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{.Values.frontend.ui}}
+      app: {{.Values.frontend.uiPath}}
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: {{.Values.frontend.ui}}
+        app: {{.Values.frontend.uiPath}}
     spec:
       terminationGracePeriodSeconds: 2
       containers:
@@ -32,7 +32,9 @@ spec:
           value: {{.Values.stableEndpoint}}
         - name: TITLE
           value: {{.Values.frontend.title}}
-        ports:
+         - name: UI_PATH
+          value: {{.Values.frontend.uiPath}}
+       ports:
         - name: http
           containerPort: 80
           protocol: TCP
@@ -47,7 +49,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Values.frontend.ui}}
+  name: {{.Values.frontend.uiPath}}
 spec:
   ports:
   - name: http
@@ -55,5 +57,5 @@ spec:
     protocol: TCP
     targetPort: http
   selector:
-    app: {{.Values.frontend.ui}}
+    app: {{.Values.frontend.uiPath}}
   type: ClusterIP
