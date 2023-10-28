@@ -32,7 +32,7 @@ spec:
           value: {{.Values.stableEndpoint}}
         - name: TITLE
           value: {{.Values.frontend.title}}
-         - name: UI_PATH
+        - name: UI_PATH
           value: {{.Values.frontend.uiPath}}
        ports:
         - name: http
