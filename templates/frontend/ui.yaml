@@ -34,7 +34,7 @@ spec:
           value: {{.Values.frontend.title}}
         - name: UI_PATH
           value: {{.Values.frontend.uiPath}}
-       ports:
+        ports:
         - name: http
           containerPort: 80
           protocol: TCP
