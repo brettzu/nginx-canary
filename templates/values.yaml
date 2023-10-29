@@ -1,18 +1,14 @@
-name: <+serviceVariables.name>
+name: color
+canaryName: color-canary
+stableName: color-stable
+host: nginx-demo.harness.io
 image: <+artifact.image>
-canaryName: <+serviceVariables.canaryName>
-stableName: <+serviceVariables.stableName>
-host: <+serviceVariables.host>
-endpoint: color
-canaryEndpoint: color-canary
-stableEndpoint: color-stable
 splitTraffic: false
 
 replicas: 2
 namespace: <+infra.namespace>
 
 frontend:
+  uiPath: canary
   title: Canary - Nginx Traffic Shift
-  loadBalancer: <+serviceVariables.loadBalancer>
-  uiPath: <+serviceVariables.uiPath>
   image: us.gcr.io/sales-209522/continuous-requests:110

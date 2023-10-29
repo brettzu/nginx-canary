@@ -23,13 +23,13 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - name: LOAD_BALANCER
-          value: {{.Values.frontend.loadBalancer}}
+          value: https://{{.Values.host}}
         - name: ENDPOINT
-          value: {{.Values.endpoint}}
+          value: {{.Values.name}}
         - name: TARGET1
-          value: {{.Values.canaryEndpoint}}
+          value: {{.Values.canaryName}}
         - name: TARGET2
-          value: {{.Values.stableEndpoint}}
+          value: {{.Values.stableName}}
         - name: TITLE
           value: {{.Values.frontend.title}}
         - name: UI_PATH

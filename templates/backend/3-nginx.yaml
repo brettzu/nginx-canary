@@ -29,32 +29,32 @@ spec:
     service: {{.Values.canaryName}}
     port: 80
   subroutes:
-  - path: /{{.Values.stableEndpoint}}
+  - path: /{{.Values.stableName}}
     action:
       proxy:
         upstream: {{.Values.stableName}}
-        rewritePath: /color/index.html
-  - path: /{{.Values.canaryEndpoint}}
+        rewritePath: /{{.Values.name}}/index.html
+  - path: /{{.Values.canaryName}}
     action:
       proxy:
         upstream: {{.Values.canaryName}}
-        rewritePath: /color/index.html
-  - path: /{{.Values.endpoint}}
+        rewritePath: /{{.Values.name}}/index.html
+  - path: /{{.Values.name}}
     {{- if .Values.splitTraffic}}
     splits:
     - weight: {{.Values.stableWeight}}
       action:
         proxy:
           upstream: {{.Values.stableName}}
-          rewritePath: /color/index.html
+          rewritePath: /{{.Values.name}}/index.html
     - weight: {{.Values.canaryWeight}}
       action:
         proxy:
           upstream: {{.Values.canaryName}}
-          rewritePath: /color/index.html
+          rewritePath: /{{.Values.name}}/index.html
     {{- else}}
     action:
       proxy:
         upstream: {{.Values.stableName}}
-        rewritePath: /color/index.html
+        rewritePath: /{{.Values.name}}/index.html
     {{- end}}
