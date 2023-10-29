@@ -23,7 +23,7 @@ spec:
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
-            path: /{.Values.name}}
+            path: /{{.Values.name}}
             port: http
           initialDelaySeconds: 5
           periodSeconds: 5
