@@ -33,12 +33,12 @@ spec:
     action:
       proxy:
         upstream: {{.Values.stableName}}
-        rewritePath: /{{.Values.name}}/index.html
+        rewritePath: /color/index.html
   - path: /{{.Values.canaryName}}
     action:
       proxy:
         upstream: {{.Values.canaryName}}
-        rewritePath: /{{.Values.name}}/index.html
+        rewritePath: /color/index.html
   - path: /{{.Values.name}}
     {{- if .Values.splitTraffic}}
     splits:
@@ -46,15 +46,15 @@ spec:
       action:
         proxy:
           upstream: {{.Values.stableName}}
-          rewritePath: /{{.Values.name}}/index.html
+          rewritePath: /color/index.html
     - weight: {{.Values.canaryWeight}}
       action:
         proxy:
           upstream: {{.Values.canaryName}}
-          rewritePath: /{{.Values.name}}/index.html
+          rewritePath: /color/index.html
     {{- else}}
     action:
       proxy:
         upstream: {{.Values.stableName}}
-        rewritePath: /{{.Values.name}}/index.html
+        rewritePath: /color/index.html
     {{- end}}
