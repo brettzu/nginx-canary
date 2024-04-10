@@ -11,4 +11,4 @@ namespace: <+infra.namespace>
 frontend:
   uiPath: canary
   title: Canary - Nginx Traffic Shift
-  image: us.gcr.io/sales-209522/continuous-requests:110
+  image: us-docker.pkg.dev/sales-209522/demo/continuous-requests:100
